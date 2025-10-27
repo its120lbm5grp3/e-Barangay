@@ -1,15 +1,16 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
 import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyAnAExXXG9bOB47rO4XnjeNZNmQle9fAPQ",
-  authDomain: "qr-checker-38ac1.firebaseapp.com",
-  projectId: "qr-checker-38ac1",
-  storageBucket: "qr-checker-38ac1.appspot.com",
-  messagingSenderId: "888229359713",
-  appId: "1:888229359713:web:64bba2b0c6ee057c627a20",
-  measurementId: "G-PK22BRPZJC"
-};
+    const firebaseConfig = {
+      apiKey: "AIzaSyCJvuz01ir-0onk9LKrl2Qw9APr7nFRW28",
+      authDomain: "e-barangay-396e6.firebaseapp.com",
+      databaseURL: "https://e-barangay-396e6-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "e-barangay-396e6",
+      storageBucket: "e-barangay-396e6.firebasestorage.app",
+      messagingSenderId: "678452381421",
+      appId: "1:678452381421:web:9d98261ce6131ac0bbeee4",
+      measurementId: "G-W4R65QDVC5"
+    };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
