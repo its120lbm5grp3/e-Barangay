@@ -32,7 +32,9 @@ async function checkCode(code) {
     const snap = await getDoc(ref);
     if (snap.exists()) {
       const data = snap.data();
-      resultEl.innerHTML = `Authentic QR Code<br>Product: ${data.productName || "Unnamed Product"}`;
+      resultEl.innerHTML = `Authentic QR Code<br>
+                        Name: ${data.name || "Unnamed"}<br>
+                        Product: ${data.productName || "Unnamed Product"}`;
       resultEl.style.color = "green";
     } else {
       resultEl.innerHTML = "Not Authentic!";
