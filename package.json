@@ -1,0 +1,15 @@
+{
+  "name": "e-barangay",
+  "version": "1.0.0",
+  "description": "E-Barangay Web App - Admin, User, and Log-Reg pages for document and enlistment management.",
+  "main": "firebase-config.js",
+  "scripts": {
+    "start": "npx serve ."
+  },
+  "dependencies": {
+    "serve": "^14.2.1"
+  },
+  "engines": {
+    "node": "20.x"
+  }
+}
