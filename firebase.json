@@ -9,7 +9,7 @@
     "redirects": [
       {
         "source": "/",
-        "destination": "/LogRegPage/",
+        "destination": "/Log-Reg Page/",
         "type": 301
       },
       {
@@ -23,16 +23,11 @@
         "type": 301
       },
       {
-        "source": "/LogRegPage",
-        "destination": "/LogRegPage/",
+        "source": "/Log-Reg Page",
+        "destination": "/Log-Reg Page/",
         "type": 301
       }
     ],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
-    ]
+    "rewrites": []
   }
 }
