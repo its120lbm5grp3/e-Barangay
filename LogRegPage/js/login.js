@@ -174,7 +174,7 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const idTokenResult = await user.getIdTokenResult(true);
       if (idTokenResult.claims && idTokenResult.claims.admin === true) {
-        window.location.href = "../AdminPage/dashboard.html";
+        window.location.href = "../AdminPage/index.html";
         return;
       }
     } catch (err) {
@@ -188,7 +188,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = snap.data();
       const role = data.role || 'resident';
       if (role === 'admin') {
-        window.location.href = "../AdminPage/dashboard.html";
+        window.location.href = "../AdminPage/index.html";
       } else {
         window.location.href = "../UserPage/index.html";
       }

@@ -1,11 +1,38 @@
 {
   "hosting": {
     "public": "workspace",
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
     "redirects": [
-      { "source": "/User Page", "destination": "/User Page/", "type": 301 },
-      { "source": "/Admin Page", "destination": "/Admin Page/", "type": 301 },
-      { "source": "/Log-Reg Page", "destination": "/Log-Reg Page/", "type": 301 }
+      {
+        "source": "/",
+        "destination": "/LogRegPage/",
+        "type": 301
+      },
+      {
+        "source": "/UserPage",
+        "destination": "/UserPage/",
+        "type": 301
+      },
+      {
+        "source": "/AdminPage",
+        "destination": "/AdminPage/",
+        "type": 301
+      },
+      {
+        "source": "/LogRegPage",
+        "destination": "/LogRegPage/",
+        "type": 301
+      }
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
     ]
   }
 }
