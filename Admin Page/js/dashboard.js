@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		logoutButton.addEventListener('click', (e) => {
 			e.preventDefault();
 			signOut(auth).then(() => {
-				window.location.href = '../Log-Reg Page/login.html';
+				window.location.href = '../Log-Reg Page/index.html';
 			}).catch((error) => {
 				console.error('Logout Error:', error);
 				alert('Failed to logout. Please try again.');
@@ -42,10 +42,10 @@ document.addEventListener('DOMContentLoaded', () => {
 				loadDashboardData();
 				listenForOnlineUsers();
 			} else {
-				window.location.href = '../Log-Reg Page/login.html';
+				window.location.href = '../Log-Reg Page/index.html';
 			}
 		} else {
-			window.location.href = '../Log-Reg Page/login.html';
+			window.location.href = '../Log-Reg Page/index.html';
 		}
 	});
 
