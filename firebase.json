@@ -3,9 +3,9 @@
     "public": "workspace",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "redirects": [
-      { "source": "/UserPage", "destination": "/UserPage/", "type": 301 },
-      { "source": "/AdminPage", "destination": "/AdminPage/", "type": 301 },
-      { "source": "/LogRegPage", "destination": "/LogRegPage/", "type": 301 }
+      { "source": "/User Page", "destination": "/User Page/", "type": 301 },
+      { "source": "/Admin Page", "destination": "/Admin Page/", "type": 301 },
+      { "source": "/Log-Reg Page", "destination": "/Log-Reg Page/", "type": 301 }
     ]
   }
 }
