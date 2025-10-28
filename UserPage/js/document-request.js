@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
 						addressField.value = `${userData.address.blkNo || ''} ${userData.address.street || ''}, ${userData.address.town || ''}, ${userData.address.city || ''}, ${userData.address.zip || ''}`.trim();
 					}
 				} else {
-					window.location.href = '../Log-Reg Page/login.html';
+					window.location.href = '../Log-Reg Page/index.html';
 				}
 			} catch(err) {
 				console.error('Error loading user:', err);

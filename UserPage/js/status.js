@@ -188,7 +188,7 @@ function startListenersForUser(uid) {
 // Auth watcher --------------------------------------------------------------
 onAuthStateChanged(auth, (user) => {
 	if(!user) {
-		window.location.href = '../Log-Reg Page/login.html';
+		window.location.href = '../Log-Reg Page/index.html';
 		return;
 	}
 	currentUser = user;

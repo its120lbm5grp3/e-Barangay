@@ -31,11 +31,11 @@ document.addEventListener("DOMContentLoaded", () => {
   window.appSignOut = async function () {
     try {
       await signOut(auth);
-      window.location.href = "login.html";
+      window.location.href = "index.html";
     } catch (err) {
       console.error("Sign out failed:", err);
       // fallback: still redirect to login
-      window.location.href = "login.html";
+      window.location.href = "index.html";
     }
   };
 
@@ -174,34 +174,34 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const idTokenResult = await user.getIdTokenResult(true);
       if (idTokenResult.claims && idTokenResult.claims.admin === true) {
-        window.location.href = "../Admin Page/dashboard.html";
+        window.location.href = "../AdminPage/dashboard.html";
         return;
       }
     } catch (err) {
       console.warn("Could not read id token claims:", err);
     }
 
-    // Try to read the user doc for role; if that fails, fall back to user page.
+    // Try to read the user doc for role; if that fails, fall back to UserPage.
     const userDocRef = doc(db, "users", user.uid);
     const snap = await safeGetDoc(userDocRef);
     if (snap && snap.exists()) {
       const data = snap.data();
       const role = data.role || 'resident';
       if (role === 'admin') {
-        window.location.href = "../Admin Page/dashboard.html";
+        window.location.href = "../AdminPage/dashboard.html";
       } else {
-        window.location.href = "../User Page/index.html";
+        window.location.href = "../UserPage/index.html";
       }
       return;
     }
 
     // Doc missing or unreadable — ensure it's created so profile pages can work,
-    // but even if creation fails, we should not block the user: redirect to user page.
+    // but even if creation fails, we should not block the user: redirect to UserPage.
     const created = await ensureUserDocExists(user);
     if (!created) {
-      console.warn("Could not create user doc before redirect; continuing to user page anyway.");
+      console.warn("Could not create user doc before redirect; continuing to UserPage anyway.");
     }
-    window.location.href = "../User Page/index.html";
+    window.location.href = "../UserPage/index.html";
   }
 
   // === Main login handler ===
