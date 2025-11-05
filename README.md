@@ -1,12 +1,11 @@
-# e-Barangay: Secure Document Request System with AI Assistance for Barangay Hall
+# e-Barangay: Secure Document Request System for Barangay Hall
 
-The **e-Barangay System** is a digital service platform designed for **Barangay III Poblacion**. It aims to modernize and secure the document request process using **AI assistance** and **cybersecurity measures** such as **Two-Factor Authentication (2FA)**, **data encryption**, and **QR verification**.
+The **e-Barangay System** is a digital service platform designed for **Barangay III Poblacion**. It aims to modernize and secure the document request process using **cybersecurity measures** such as **Two-Factor Authentication (2FA)**, **data encryption**, and **QR verification**.
 
 ---
 
 ## Features
 
-* **AI Chatbot Assistance** – Helps residents navigate the system and request documents easily.
 * **Secure Login & Authentication** – Uses Firebase for user authentication and 2FA verification.
 * **Encrypted Data Handling** – Protects sensitive resident information against unauthorized access.
 * **QR Verification** – Allows secure validation of official barangay documents.
