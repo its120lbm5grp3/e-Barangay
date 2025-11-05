@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			row.disabled = true;
 			try {
 				await signOut(auth);
-				window.location.href = "../Log-Reg Page/index.html";
+				window.location.href = "/Log-Reg Page/index.html";
 			} catch(err) {
 				console.error('Sign out failed:', err);
 				alert('Failed to sign out. Please try again.');
