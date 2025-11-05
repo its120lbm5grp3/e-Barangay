@@ -1,15 +1,15 @@
 import {
 	auth, db
 }
-from '../../firebase-config.js';
+	from '../../firebase-config.js';
 import {
 	doc, getDoc, addDoc, collection, serverTimestamp
 }
-from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+	from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import {
 	onAuthStateChanged
 }
-from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+	from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 document.addEventListener('DOMContentLoaded', () => {
 	const form = document.querySelector('.form');
 	const firstNameField = document.getElementById('first_name');
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const addressField = document.getElementById('address');
 	// ensure toast container exists
 	let toastContainer = document.getElementById('eb-toast-container');
-	if(!toastContainer) {
+	if (!toastContainer) {
 		toastContainer = document.createElement('div');
 		toastContainer.id = 'eb-toast-container';
 		toastContainer.setAttribute('aria-live', 'polite');
@@ -26,13 +26,13 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	function escapeHtml(str) {
-		if(str === null || str === undefined) return '';
+		if (str === null || str === undefined) return '';
 		return String(str).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#39;');
 	}
 	// showToast(type, title, message, timeoutMs)
 	function showToast(type = 'info', title = '', message = '', timeoutMs = 4500) {
 		const container = document.getElementById('eb-toast-container');
-		if(!container) return;
+		if (!container) return;
 		const item = document.createElement('div');
 		item.className = `eb-toast ${type}`;
 		item.innerHTML = `
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			el.classList.remove('eb-show');
 			// remove after animation
 			setTimeout(() => {
-				if(el.parentNode) el.parentNode.removeChild(el);
+				if (el.parentNode) el.parentNode.removeChild(el);
 			}, 380);
 		}
 	}
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const termsModal = document.getElementById('termsModal');
 	const termsOkButton = document.getElementById('terms-ok');
 	const showModal = (message, isTerms = false) => {
-		if(isTerms) {
+		if (isTerms) {
 			document.getElementById('terms-message').textContent = message;
 			termsModal.style.display = 'block';
 		} else {
@@ -77,44 +77,44 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	};
 	const hideModal = (isTerms = false) => {
-		if(isTerms) termsModal.style.display = 'none';
+		if (isTerms) termsModal.style.display = 'none';
 		else modal.style.display = 'none';
 	};
-	if(modalOkButton) modalOkButton.addEventListener('click', () => hideModal());
-	if(termsOkButton) termsOkButton.addEventListener('click', () => hideModal(true));
+	if (modalOkButton) modalOkButton.addEventListener('click', () => hideModal());
+	if (termsOkButton) termsOkButton.addEventListener('click', () => hideModal(true));
 	// populate user fields
-	onAuthStateChanged(auth, async(user) => {
-		if(user) {
+	onAuthStateChanged(auth, async (user) => {
+		if (user) {
 			try {
 				const userDocRef = doc(db, 'users', user.uid);
 				const userDocSnap = await getDoc(userDocRef);
-				if(userDocSnap.exists()) {
+				if (userDocSnap.exists()) {
 					const userData = userDocSnap.data();
 					firstNameField.value = userData.firstName || '';
 					lastNameField.value = userData.lastName || '';
-					if(userData.address) {
+					if (userData.address) {
 						addressField.value = `${userData.address.blkNo || ''} ${userData.address.street || ''}, ${userData.address.town || ''}, ${userData.address.city || ''}, ${userData.address.zip || ''}`.trim();
 					}
 				} else {
 					window.location.href = '../Log-Reg Page/index.html';
 				}
-			} catch(err) {
+			} catch (err) {
 				console.error('Error loading user:', err);
 			}
 		}
 	});
 	// submit handler
-	form.addEventListener('submit', async(e) => {
+	form.addEventListener('submit', async (e) => {
 		e.preventDefault();
 		const user = auth.currentUser;
-		if(!user) {
+		if (!user) {
 			showToast('error', 'Login required', 'You must be logged in to submit a request.');
 			return;
 		}
 		const documentTypeEl = document.getElementById('document_type');
 		const documentType = documentTypeEl ? documentTypeEl.value : '';
 		const reason = document.getElementById('reason') ? document.getElementById('reason').value : '';
-		if(!documentType) {
+		if (!documentType) {
 			showToast('error', 'Missing field', 'Please select a document type.');
 			return;
 		}
@@ -130,9 +130,17 @@ document.addEventListener('DOMContentLoaded', () => {
 			});
 			showToast('success', 'Request submitted', 'Your document request has been submitted.');
 			form.reset();
-		} catch(err) {
+		} catch (err) {
 			console.error('Submit error', err);
 			showToast('error', 'Submission failed', 'An error occurred. Please try again.');
+		}
+	});
+
+	onAuthStateChanged(auth, async (user) => {
+		if (!user) {
+			console.log("No user is signed in. Redirecting to login.");
+			window.location.href = "../Log-Reg Page/index.html";
+			return;
 		}
 	});
 });

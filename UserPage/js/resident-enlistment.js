@@ -2,15 +2,15 @@
 import {
 	auth, db
 }
-from '../../firebase-config.js';
+	from '../../firebase-config.js';
 import {
 	doc, getDoc, addDoc, collection, serverTimestamp
 }
-from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+	from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import {
 	onAuthStateChanged
 }
-from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+	from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 document.addEventListener('DOMContentLoaded', () => {
 	const form = document.querySelector('.form');
 	const firstNameField = document.getElementById('first_name');
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const purposeField = document.getElementById('purpose');
 	// ensure toast container exists
 	let toastContainer = document.getElementById('eb-toast-container');
-	if(!toastContainer) {
+	if (!toastContainer) {
 		toastContainer = document.createElement('div');
 		toastContainer.id = 'eb-toast-container';
 		toastContainer.setAttribute('aria-live', 'polite');
@@ -30,13 +30,13 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 	// helper to escape user text
 	function escapeHtml(str) {
-		if(str === null || str === undefined) return '';
+		if (str === null || str === undefined) return '';
 		return String(str).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#39;');
 	}
 	// showToast(type, title, message, timeoutMs)
 	function showToast(type = 'info', title = '', message = '', timeoutMs = 4200) {
 		const container = document.getElementById('eb-toast-container');
-		if(!container) return;
+		if (!container) return;
 		const item = document.createElement('div');
 		item.className = `eb-toast ${type}`;
 		item.innerHTML = `
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		const remove = () => {
 			item.classList.remove('eb-show');
 			setTimeout(() => {
-				if(item.parentNode) item.parentNode.removeChild(item);
+				if (item.parentNode) item.parentNode.removeChild(item);
 			}, 380);
 		};
 		closeBtn.addEventListener('click', remove);
@@ -74,38 +74,38 @@ document.addEventListener('DOMContentLoaded', () => {
 	const hideModal = () => {
 		modal.style.display = 'none';
 	};
-	if(modalOkButton) modalOkButton.addEventListener('click', hideModal);
+	if (modalOkButton) modalOkButton.addEventListener('click', hideModal);
 	// populate user info
-	onAuthStateChanged(auth, async(user) => {
-		if(user) {
+	onAuthStateChanged(auth, async (user) => {
+		if (user) {
 			const userDocRef = doc(db, 'users', user.uid);
 			try {
 				const userDocSnap = await getDoc(userDocRef);
-				if(userDocSnap.exists()) {
+				if (userDocSnap.exists()) {
 					const userData = userDocSnap.data();
 					firstNameField.value = userData.firstName || '';
 					lastNameField.value = userData.lastName || '';
-					if(userData.address) {
+					if (userData.address) {
 						addressField.value = `${userData.address.blkNo || ''} ${userData.address.street || ''}, ${userData.address.town || ''}, ${userData.address.city || ''}, ${userData.address.zip || ''}`.trim();
 					}
 				} else {
-					window.location.href = '../Log-Reg Page/login.html';
+					window.location.href = '../Log-Reg Page/index.html';
 				}
-			} catch(err) {
+			} catch (err) {
 				console.error('Error fetching user doc', err);
 			}
 		}
 	});
 	// submit handler
-	form.addEventListener('submit', async(e) => {
+	form.addEventListener('submit', async (e) => {
 		e.preventDefault();
 		const user = auth.currentUser;
-		if(!user) {
+		if (!user) {
 			// toast instead of modal for inline feedback
 			showToast('error', 'Login required', 'You must be logged in to submit a request.');
 			return;
 		}
-		if(!purposeField.value) {
+		if (!purposeField.value) {
 			showToast('error', 'Missing field', 'Please select a purpose for registration.');
 			return;
 		}
@@ -122,9 +122,17 @@ document.addEventListener('DOMContentLoaded', () => {
 			});
 			showToast('success', 'Request submitted', 'Your enlistment request has been submitted.');
 			form.reset();
-		} catch(error) {
+		} catch (error) {
 			console.error('Error submitting enlistment request:', error);
 			showToast('error', 'Submission failed', 'An error occurred while submitting your request. Please try again.');
+		}
+	});
+
+	onAuthStateChanged(auth, async (user) => {
+		if (!user) {
+			console.log("No user is signed in. Redirecting to login.");
+			window.location.href = "../Log-Reg Page/index.html";
+			return;
 		}
 	});
 });
