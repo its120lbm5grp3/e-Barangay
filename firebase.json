@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "workspace",
+    "public": ".",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -10,21 +10,6 @@
     "redirects": [
       {
         "source": "/",
-        "destination": "/Log-Reg Page/",
-        "type": 301
-      },
-      {
-        "source": "/UserPage",
-        "destination": "/UserPage/",
-        "type": 301
-      },
-      {
-        "source": "/AdminPage",
-        "destination": "/AdminPage/",
-        "type": 301
-      },
-      {
-        "source": "/Log-Reg Page",
         "destination": "/Log-Reg Page/",
         "type": 301
       }
