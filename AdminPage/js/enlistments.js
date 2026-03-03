@@ -12,7 +12,9 @@ import {
 	doc,
 	getDoc,
 	updateDoc,
-	serverTimestamp
+	serverTimestamp,
+	query,
+	orderBy
 }
 from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 document.addEventListener('DOMContentLoaded', () => {
@@ -31,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	// NEW references
 	const saveEtaBtn = document.getElementById('save-eta-btn') || modal.querySelector('#save-eta-btn');
 	const etaInput = document.getElementById('modal-eta') || modal.querySelector('#modal-eta');
+	const exportBtn = document.getElementById('export-csv-btn');
 	// --- Modal open/close animations ---
 	function openModalOverlay() {
 		modal.style.display = 'flex';
@@ -111,9 +114,9 @@ document.addEventListener('DOMContentLoaded', () => {
             ${escapeHtml(data.status ?? 'pending')}
           </div>
           <div class="actions">
-            <button class="view-btn"><i class="fa-solid fa-eye"></i> View</button>
-            <button class="approve-btn"><i class="fa-solid fa-check"></i> Approve</button>
-            <button class="reject-btn"><i class="fa-solid fa-xmark"></i> Reject</button>
+            <button class="view-btn"></i> View</button>
+            <button class="approve-btn"></i> Approve</button>
+            <button class="reject-btn"></i> Reject</button>
           </div>
         `;
 				const viewBtn = row.querySelector('.view-btn');
@@ -247,4 +250,61 @@ document.addEventListener('DOMContentLoaded', () => {
 	} else {
 		console.warn('#save-eta-btn or #modal-eta not found in DOM');
 	}
+
+			// --- EXPORT TO CSV FUNCTION ---
+		async function exportToCSV() {
+    try {
+        // Query the ENLISTMENTS collection
+        const snapshot = await getDocs(collection(db, 'ENLISTMENTS'));
+
+        // CSV header without ETA
+        let csv = [];
+        csv.push(["ID", "Name", "Purpose of Registration", "Date Requested", "Status"]);
+
+        let index = 1;
+
+        snapshot.forEach(docSnap => {
+            const data = docSnap.data();
+
+            let date = '—';
+            try {
+                date = data.createdAt
+                    ? data.createdAt.toDate().toLocaleDateString('en-US')
+                    : '—';
+            } catch {
+                date = '—';
+            }
+
+            csv.push([
+                index++,
+                data.name || '—',
+                data.purposeOfRegistration || '—',
+                date,
+                data.status || 'pending'
+            ]);
+        });
+
+        // Convert array to CSV string
+        const csvContent = csv
+            .map(row => row.map(value => `"${String(value).replace(/"/g, '""')}"`).join(","))
+            .join("\n");
+
+        // Create and click download link
+        const blob = new Blob([csvContent], { type: "text/csv" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "enlistments.csv";
+        link.click();
+
+    } catch (err) {
+        console.error("Export failed:", err);
+        alert("Failed to export CSV. Check console.");
+    }
+}
+
+// --- EXPORT BUTTON LISTENER ---
+if (exportBtn) {
+    exportBtn.addEventListener('click', exportToCSV);
+}
+
 });

@@ -269,3 +269,18 @@ html, body {
 	align-items: center;
 	gap: 10px;
 }
+
+.export-btn {
+    background: #f0ad4e;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.export-btn:hover {
+    background: #946f3b;
+}

@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const rejectBtnModal = document.getElementById('reject-btn');
 	const saveEtaBtn = document.getElementById('save-eta-btn');
 	const etaInput = document.getElementById('modal-eta');
+	const exportBtn = document.getElementById('export-csv-btn');
 	let adminId = null;
 	if(!tableBody) console.warn('tableBody not found');
 	if(!modal) {
@@ -113,9 +114,9 @@ document.addEventListener('DOMContentLoaded', () => {
           <div>${date}</div>
           <div class="status-${(requestData.status || 'pending').toLowerCase()}">${escapeHtml(requestData.status || 'pending')}</div>
           <div class="actions">
-            <button class="view-btn"><i class="fa-solid fa-eye"></i> View</button>
-            <button class="approve-btn"><i class="fa-solid fa-check"></i> Approve</button>
-            <button class="reject-btn"><i class="fa-solid fa-xmark"></i> Reject</button>
+            <button class="view-btn"> View</button>
+            <button class="approve-btn"> Approve</button>
+            <button class="reject-btn"> Reject</button>
           </div>
         `;
 				const viewBtn = row.querySelector('.view-btn');
@@ -281,5 +282,60 @@ document.addEventListener('DOMContentLoaded', () => {
 	} else {
 		console.warn('#save-eta-btn or #modal-eta not found in DOM');
 	}
+		// --- EXPORT TO CSV FUNCTION ---
+		async function exportToCSV() {
+			try {
+				const q = query(collection(db, 'REQUESTS'), orderBy('createdAt', 'desc'));
+				const snapshot = await getDocs(q);
+
+				let csv = [];
+				csv.push(["ID", "Name", "Document Type", "Date Requested", "Status", "ETA"]);
+
+				let index = 1;
+
+				snapshot.forEach(docSnap => {
+					const data = docSnap.data();
+
+					let date = '—';
+					try {
+						date = data.createdAt
+							? data.createdAt.toDate().toLocaleDateString('en-US')
+							: '—';
+					} catch {
+						date = '—';
+					}
+
+					csv.push([
+						index++,
+						data.name || '—',
+						data.documentType || '—',
+						date,
+						data.status || 'pending',
+						data.eta || '—'
+					]);
+				});
+
+				const csvContent = csv
+					.map(row => row.map(value => `"${String(value).replace(/"/g, '""')}"`).join(","))
+					.join("\n");
+
+				const blob = new Blob([csvContent], { type: "text/csv" });
+				const link = document.createElement("a");
+
+				link.href = URL.createObjectURL(blob);
+				link.download = "document_requests.csv";
+				link.click();
+
+			} catch (err) {
+				console.error("Export failed:", err);
+				alert("Failed to export CSV. Check console.");
+			}
+		}
+
+		// --- EXPORT BUTTON LISTENER ---
+		if (exportBtn) {
+			exportBtn.addEventListener('click', exportToCSV);
+		}
+	
 	console.debug('Documents page JS loaded. Modal element:', modal);
 });
